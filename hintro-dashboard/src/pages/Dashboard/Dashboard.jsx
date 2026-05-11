@@ -11,6 +11,7 @@
 import { useState } from 'react';
 import { useDashboard } from '../../hooks/useDashboard';
 import { formatAvgDuration, getLastSession } from '../../utils/formatters';
+import { useUser } from '../../context/UserContext';
 
 import Sidebar from '../../components/Sidebar/Sidebar';
 import StatsCard from '../../components/StatsCard/StatsCard';
@@ -23,9 +24,8 @@ import styles from './Dashboard.module.css';
 function Dashboard() {
   /* ----------------------------------------------------------
      Local State
-     All state that ONLY this page needs lives here.
   ---------------------------------------------------------- */
-  const [userId, setUserId]           = useState('u2');       // Which test user
+  const { userId } = useUser();
   const [logoutOpen, setLogoutOpen]   = useState(false);      // Modal visibility
   const [sidebarOpen, setSidebarOpen] = useState(false);      // Mobile drawer
 
@@ -117,8 +117,6 @@ function Dashboard() {
             <HamburgerIcon />
           </button>
           <span className={styles.topBarTitle}>Dashboard</span>
-          {/* User switcher — dev convenience, remove in production */}
-          <UserSwitcher userId={userId} onChange={setUserId} />
         </div>
 
         {/* ---- Page Content ---- */}
@@ -202,28 +200,6 @@ function Dashboard() {
   );
 }
 
-/* ----------------------------------------------------------
-   User Switcher — Dev tool to toggle between u1 and u2
-   Shows as a small toggle in the top bar.
----------------------------------------------------------- */
-function UserSwitcher({ userId, onChange }) {
-  return (
-    <div className={styles.userSwitcher} title="Switch test user">
-      <button
-        className={`${styles.switchBtn} ${userId === 'u1' ? styles.switchActive : ''}`}
-        onClick={() => onChange('u1')}
-      >
-        u1
-      </button>
-      <button
-        className={`${styles.switchBtn} ${userId === 'u2' ? styles.switchActive : ''}`}
-        onClick={() => onChange('u2')}
-      >
-        u2
-      </button>
-    </div>
-  );
-}
 
 /* ---- Small inline icons used in this file ---- */
 function HamburgerIcon() {

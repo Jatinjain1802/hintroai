@@ -2,13 +2,12 @@
    Sidebar.jsx — Left navigation panel
    ============================================================ */
 
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useUser } from '../../context/UserContext';
 import styles from './Sidebar.module.css';
 
 /* ----------------------------------------------------------
-   SVG Icons — Defined FIRST so they can be used in navItems array below.
-   In JavaScript, regular function declarations are "hoisted" (moved to top
-   by the engine), but since we're using them as JSX at module level,
-   we define them early to be safe and clear.
+   SVG Icons
 ---------------------------------------------------------- */
 function DashboardIcon() {
   return (
@@ -86,42 +85,26 @@ function HintroLogoIcon() {
 }
 
 /* ----------------------------------------------------------
-   Navigation data — arrays defined after icons are declared.
-   Each item has: id, label, icon (JSX element), active flag.
-   
-   CONCEPT: Storing JSX as a value in a plain object is fine!
-   JSX is just JavaScript — React.createElement() calls under the hood.
+   Navigation data
 ---------------------------------------------------------- */
 const mainNavItems = [
-  { id: 'dashboard',      label: 'Dashboard',       icon: <DashboardIcon />, active: true  },
-  { id: 'call-insights',  label: 'Call Insights',   icon: <InsightsIcon />,  active: false },
-  { id: 'knowledge-base', label: 'Knowledge Base',  icon: <BookIcon />,      active: false },
-  { id: 'prompts',        label: 'Prompts',         icon: <PromptsIcon />,   active: false },
-  { id: 'busy-contacts',  label: 'Busy Contacts',   icon: <ContactsIcon />,  active: false },
+  { id: 'dashboard',      label: 'Dashboard',       icon: <DashboardIcon />, path: '/dashboard' },
+  { id: 'call-insights',  label: 'Call Insights',   icon: <InsightsIcon />,  path: '#insights' },
+  { id: 'knowledge-base', label: 'Knowledge Base',  icon: <BookIcon />,      path: '#kb' },
+  { id: 'prompts',        label: 'Prompts',         icon: <PromptsIcon />,   path: '#prompts' },
+  { id: 'busy-contacts',  label: 'Busy Contacts',   icon: <ContactsIcon />,  path: '#contacts' },
 ];
 
 const bottomNavItems = [
-  { id: 'feedback',       label: 'Feedback History', icon: <FeedbackIcon />, active: false },
-  { id: 'settings',       label: 'Settings',         icon: <SettingsIcon />, active: false },
+  { id: 'feedback',       label: 'Feedback History', icon: <FeedbackIcon />, path: '/feedback' },
+  { id: 'settings',       label: 'Settings',         icon: <SettingsIcon />, path: '#settings' },
 ];
 
-/* ----------------------------------------------------------
-   Sidebar Component
-   
-   PROPS:
-   - onLogout: function — called when user clicks "Log out"
-   - isOpen: boolean   — for mobile, controls if sidebar shows
-   - onClose: function — for mobile, called when overlay clicked
-   
-   CONCEPT: Props flow DOWN from parent to child.
-   The Dashboard component controls these values and passes them here.
----------------------------------------------------------- */
 function Sidebar({ onLogout, isOpen, onClose }) {
+  const { userId, toggleUser } = useUser();
+
   return (
     <>
-      {/* Mobile overlay — dark background behind the sidebar.
-          CONCEPT: && (logical AND) for conditional rendering.
-          React renders nothing for false/null/undefined. */}
       {isOpen && (
         <div
           className={styles.overlay}
@@ -130,12 +113,7 @@ function Sidebar({ onLogout, isOpen, onClose }) {
         />
       )}
 
-      {/* Sidebar panel.
-          CONCEPT: Template literal + ternary for dynamic className.
-          `${styles.sidebar} ${isOpen ? styles.open : ''}`
-          → adds "open" class on mobile to slide the panel in. */}
       <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
-
         {/* Logo */}
         <div className={styles.logo}>
           <div className={styles.logoIcon}>
@@ -144,12 +122,28 @@ function Sidebar({ onLogout, isOpen, onClose }) {
           <span className={styles.logoText}>Hintro</span>
         </div>
 
+        {/* User Switcher — Dev Toggle */}
+        <div className={styles.userSwitcherSection}>
+          <p className={styles.switcherLabel}>Active User</p>
+          <div className={styles.userSwitcher}>
+            <button 
+              className={`${styles.switchBtn} ${userId === 'u1' ? styles.switchActive : ''}`}
+              onClick={() => toggleUser('u1')}
+            >
+              u1 (Empty)
+            </button>
+            <button 
+              className={`${styles.switchBtn} ${userId === 'u2' ? styles.switchActive : ''}`}
+              onClick={() => toggleUser('u2')}
+            >
+              u2 (Full)
+            </button>
+          </div>
+        </div>
+
         {/* Main nav links */}
         <nav className={styles.nav} aria-label="Main navigation">
           <ul className={styles.navList}>
-            {/* CONCEPT: .map() transforms each array item into JSX.
-                key={item.id} is required — helps React identify which
-                list items changed when the array updates. */}
             {mainNavItems.map((item) => (
               <li key={item.id}>
                 <NavItem item={item} />
@@ -158,13 +152,11 @@ function Sidebar({ onLogout, isOpen, onClose }) {
           </ul>
         </nav>
 
-        {/* Spacer — pushes upgrade card + bottom nav to the bottom */}
         <div className={styles.spacer} />
 
-        {/* Upgrade card */}
         <UpgradeCard />
 
-        {/* Bottom nav: Feedback, Settings, Log out */}
+        {/* Bottom nav */}
         <nav className={styles.bottomNav} aria-label="Secondary navigation">
           <ul className={styles.navList}>
             {bottomNavItems.map((item) => (
@@ -173,7 +165,6 @@ function Sidebar({ onLogout, isOpen, onClose }) {
               </li>
             ))}
 
-            {/* Log out — separate because it has its own click handler */}
             <li>
               <button
                 className={styles.logoutBtn}
@@ -186,32 +177,25 @@ function Sidebar({ onLogout, isOpen, onClose }) {
             </li>
           </ul>
         </nav>
-
       </aside>
     </>
   );
 }
 
-/* ----------------------------------------------------------
-   NavItem — renders one navigation button.
-   CONCEPT: Small, single-purpose components are easier to
-   understand, test, and reuse than one giant component.
----------------------------------------------------------- */
 function NavItem({ item }) {
   return (
-    <button
-      className={`${styles.navItem} ${item.active ? styles.navItemActive : ''}`}
-      aria-current={item.active ? 'page' : undefined}
+    <NavLink
+      to={item.path}
+      className={({ isActive }) => 
+        `${styles.navItem} ${isActive ? styles.navItemActive : ''}`
+      }
     >
       <span className={styles.navIcon}>{item.icon}</span>
       <span className={styles.navLabel}>{item.label}</span>
-    </button>
+    </NavLink>
   );
 }
 
-/* ----------------------------------------------------------
-   UpgradeCard — purple promo card at the bottom of sidebar
----------------------------------------------------------- */
 function UpgradeCard() {
   return (
     <div className={styles.upgradeCard}>
