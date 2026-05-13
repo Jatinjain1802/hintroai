@@ -3,7 +3,7 @@
 .section {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: var(--shadow-xs);
 }
@@ -25,7 +25,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-12) var(--space-6);
+  padding: 40px 54px;
   text-align: center;
   gap: var(--space-3);
 }
@@ -61,7 +61,8 @@
   background: var(--color-primary);
   color: white;
   border: none;
-  border-radius: var(--radius-md);
+  border-radius: 4px;
+  border: 0.5px solid #000;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   font-family: inherit;

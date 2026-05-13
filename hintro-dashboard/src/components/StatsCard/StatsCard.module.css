@@ -3,89 +3,81 @@
 .card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-xs);
-  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+  border-radius: var(--radius-md);
+  padding: var(--space-4) var(--space-6);
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  align-items: center;
+  gap: var(--space-5);
+  transition: all var(--transition-normal);
+  flex: 1;
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);  /* Subtle lift on hover */
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Icon container */
 .iconWrap {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-md);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: var(--space-2);
   flex-shrink: 0;
 }
 
-/* Big number value */
-.value {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-  line-height: 1;
-  letter-spacing: -0.5px;
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-/* Card label */
 .title {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
 }
 
-/* Small helper text below title */
-.subtitle {
-  font-size: var(--font-size-xs);
-  color: var(--color-text-muted);
+.value {
+  font-size: 24px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.5px;
 }
 
-/* ---- Skeleton Loading State ---- */
-/* A "skeleton" is a gray placeholder shown while data loads.
-   The shimmer animation makes it look alive. */
+/* Skeleton Loading */
+.skeletonText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 @keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
-.skeletonIcon,
-.skeletonValue,
-.skeletonTitle {
-  background: linear-gradient(
-    90deg,
-    var(--color-border) 25%,
-    var(--color-border-light) 50%,
-    var(--color-border) 75%
-  );
+.skeletonIcon, .skeletonTitle, .skeletonValue {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-sm);
+  animation: shimmer 1.5s infinite linear;
 }
 
 .skeletonIcon {
-  width: 42px;
-  height: 42px;
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-2);
-}
-
-.skeletonValue {
-  height: 32px;
-  width: 70px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
 }
 
 .skeletonTitle {
-  height: 16px;
-  width: 110px;
+  height: 14px;
+  width: 100px;
+  border-radius: 4px;
+}
+
+.skeletonValue {
+  height: 24px;
+  width: 60px;
+  border-radius: 4px;
 }

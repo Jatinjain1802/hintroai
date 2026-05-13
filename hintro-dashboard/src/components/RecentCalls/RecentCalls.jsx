@@ -1,130 +1,80 @@
-/* ============================================================
-   RecentCalls.jsx — Table of recent call sessions
-   
-   PROPS:
-   - calls: array of call session objects from the API
-   - loading: boolean
-   ============================================================ */
-
+import { MdCall } from 'react-icons/md';
 import styles from './RecentCalls.module.css';
-import { formatDuration, formatDate } from '../../utils/formatters';
-
-/* Status badge colors */
-const STATUS_COLORS = {
-  ended:        { bg: '#ECFDF3', text: '#027A48', dot: '#12B76A' },
-  force_ended:  { bg: '#FEF3F2', text: '#B42318', dot: '#F04438' },
-  active:       { bg: '#EFF8FF', text: '#175CD3', dot: '#2E90FA' },
-  pending:      { bg: '#FFFAEB', text: '#B54708', dot: '#F79009' },
-};
 
 function RecentCalls({ calls = [], loading = false }) {
-  return (
-    <section className={styles.section}>
-      {/* Section header */}
-      <div className={styles.header}>
-        <h2 className={styles.title}>Recent Calls</h2>
-        <button className={styles.viewAllBtn}>View all</button>
-      </div>
-
-      {/* Table wrapper — allows horizontal scroll on small screens */}
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Client</th>
-              <th>Description</th>
-              <th>Date</th>
-              <th>Duration</th>
-              <th>AI Used</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* CONCEPT: Conditional rendering — show skeleton rows while
-                loading, otherwise show actual data rows */}
-            {loading
-              ? Array.from({ length: 5 }).map((_, i) => (
-                  /* Array.from({length: N}) creates an array of N empty slots
-                     so we can .map() over it to render N skeleton rows */
-                  <SkeletonRow key={i} />
-                ))
-              : calls.map((call) => (
-                  <CallRow key={call._id} call={call} />
-                ))
-            }
-          </tbody>
-        </table>
-      </div>
-    </section>
-  );
-}
-
-/* ---- Individual Call Row ---- */
-function CallRow({ call }) {
-  const statusStyle = STATUS_COLORS[call.status] || STATUS_COLORS.ended;
-
-  return (
-    <tr className={styles.row}>
-      {/* Client name */}
-      <td>
-        <div className={styles.clientCell}>
-          {/* Avatar initials */}
-          <div className={styles.avatar}>
-            {call.client?.charAt(0) || '?'}
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className={styles.skeletonDateGroup}>
+            <div className={styles.skeletonDate} />
+            <div className={styles.skeletonItem} />
+            <div className={styles.skeletonItem} />
           </div>
-          <span className={styles.clientName}>{call.client || '—'}</span>
+        ))}
+      </div>
+    );
+  }
+
+  // Group calls by date
+  const grouped = calls.reduce((acc, call) => {
+    const date = new Date(call.started_at).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+    });
+    // Add ordinal suffix (th, st, nd, rd)
+    const day = new Date(call.started_at).getDate();
+    const suffix = ['th', 'st', 'nd', 'rd'][(day % 10 > 3 || Math.floor(day % 100 / 10) === 1) ? 0 : day % 10];
+    const formattedDate = date + suffix;
+
+    if (!acc[formattedDate]) acc[formattedDate] = [];
+    acc[formattedDate].push(call);
+    return acc;
+  }, {});
+
+  return (
+    <div className={styles.container}>
+      {Object.entries(grouped).map(([date, items]) => (
+        <div key={date} className={styles.dateGroup}>
+          <h4 className={styles.dateHeader}>{date}</h4>
+          <div className={styles.callList}>
+            {items.map((call) => (
+              <CallItem key={call._id} call={call} />
+            ))}
+          </div>
         </div>
-      </td>
-
-      {/* Description */}
-      <td className={styles.descCell}>
-        {call.description || '—'}
-      </td>
-
-      {/* Formatted date */}
-      <td className={styles.dateCell}>
-        {formatDate(call.started_at)}
-      </td>
-
-      {/* Duration in human-readable form */}
-      <td className={styles.durationCell}>
-        {formatDuration(call.total_duration_seconds)}
-      </td>
-
-      {/* AI interactions count */}
-      <td>
-        <span className={styles.aiChip}>
-          🤖 {call.ai_interactions ?? 0}
-        </span>
-      </td>
-
-      {/* Status badge */}
-      <td>
-        <span
-          className={styles.statusBadge}
-          style={{ backgroundColor: statusStyle.bg, color: statusStyle.text }}
-        >
-          <span
-            className={styles.statusDot}
-            style={{ backgroundColor: statusStyle.dot }}
-          />
-          {call.status}
-        </span>
-      </td>
-    </tr>
+      ))}
+    </div>
   );
 }
 
-/* ---- Skeleton Row (shown while loading) ---- */
-function SkeletonRow() {
+function CallItem({ call }) {
+  const time = new Date(call.started_at).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).toLowerCase();
+
   return (
-    <tr className={styles.row}>
-      {[120, 160, 70, 60, 50, 80].map((w, i) => (
-        <td key={i}>
-          <div className={styles.skeleton} style={{ width: w }} />
-        </td>
-      ))}
-    </tr>
+    <div className={styles.callItem}>
+      <div className={styles.left}>
+        <div className={styles.iconBox}>K</div>
+        <div className={styles.details}>
+          <span className={styles.callName}>{call.description || 'Design Call'}</span>
+          <div className={styles.participants}>
+            <img src="https://i.pravatar.cc/30?u=1" alt="p1" className={styles.participantAvatar} />
+            <img src="https://i.pravatar.cc/30?u=2" alt="p2" className={styles.participantAvatar} />
+            <img src="https://i.pravatar.cc/30?u=3" alt="p3" className={styles.participantAvatar} />
+          </div>
+        </div>
+      </div>
+      <div className={styles.right}>
+        <span className={styles.time}>{time}</span>
+        <button className={styles.moreBtn}>
+          <MdCall size={20} />
+        </button>
+      </div>
+    </div>
   );
 }
 

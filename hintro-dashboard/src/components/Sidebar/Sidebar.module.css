@@ -1,257 +1,151 @@
 /* ============================================================
    Sidebar.module.css
    
-   CONCEPT: CSS Modules
-   Class names here are LOCAL to this component.
-   ".navItem" here won't clash with ".navItem" in another file.
-   Vite transforms them to unique names like "navItem_abc123".
+   LEARNING POINT: CSS Modules (.module.css) scope your styles 
+   to a specific component. This means .navItem in this file 
+   is different from .navItem in another file!
    ============================================================ */
 
 /* ---- Sidebar Shell ---- */
 .sidebar {
-  position: fixed;          /* Stays in place as page scrolls */
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;            /* Full viewport height */
+  height: 100vh;
   width: var(--sidebar-width);
   background-color: var(--color-surface);
   border-right: 1px solid var(--color-border);
   display: flex;
-  flex-direction: column;   /* Stack children vertically */
-  padding: var(--space-5) 0;
+  flex-direction: column;
+  padding: 0;
   z-index: 100;
-  overflow-y: auto;         /* Scroll if content overflows */
+  overflow-y: auto;
   overflow-x: hidden;
   transition: transform var(--transition-normal);
 }
 
-.userSwitcherSection {
-  padding: 0 var(--space-4);
-  margin-bottom: var(--space-6);
-}
-
-.switcherLabel {
-  font-size: 10px;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-2);
-  letter-spacing: 0.5px;
-}
-
-.userSwitcher {
-  display: flex;
-  background: var(--color-bg);
-  border-radius: var(--radius-md);
-  padding: 2px;
-  gap: 2px;
-  border: 1px solid var(--color-border);
-}
-
-.switchBtn {
-  flex: 1;
-  padding: 6px;
-  border-radius: calc(var(--radius-md) - 2px);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-  transition: all var(--transition-fast);
-}
-
-.switchActive {
-  background: var(--color-surface);
-  color: var(--color-primary);
-  box-shadow: var(--shadow-xs);
-}
-
-/* ---- Logo ---- */
+/* ---- Logo Section ---- */
 .logo {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  padding: 0 var(--space-5);
-  margin-bottom: var(--space-8);
-}
-
-.logoIcon {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, var(--color-primary), #4F46E5);
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  flex-shrink: 0;
+  justify-content: center; /* Centered as per image */
+  height: 80px;
+  border-bottom: 1px solid var(--color-border-light);
+  margin-bottom: var(--space-6);
 }
 
 .logoText {
-  font-size: var(--font-size-lg);
+  font-size: 28px;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
 }
 
 /* ---- Navigation Lists ---- */
 .navList {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  padding: 0 var(--space-3);
+  gap: 4px;
+  padding: 0 var(--space-4);
 }
 
-/* ---- Nav Item (shared style for all links) ---- */
+.navListItem {
+  list-style: none;
+}
+
+/* ---- Nav Item Styling ---- */
 .navItem {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  width: 100%;
-  padding: 10px var(--space-3);
+  padding: 10px var(--space-4);
   border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  text-align: left;
-  transition: background-color var(--transition-fast), color var(--transition-fast);
-  border: none;
-  background: none;
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
   cursor: pointer;
 }
 
 .navItem:hover {
   background-color: var(--color-border-light);
-  color: var(--color-text-primary);
 }
 
-/* Active state — blue highlight */
-.navItemActive {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
-  font-weight: var(--font-weight-semibold);
-}
-
-.navItemActive:hover {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
-}
+/* 
+   LEARNING POINT: Active classes in React 
+   We combine these classes to change the look when 
+   the user is on that specific page.
+*/
 
 .navIcon {
   flex-shrink: 0;
   display: flex;
   align-items: center;
+  color: inherit; /* Inherits from navItemActive or navItem */
 }
 
 .navLabel {
   flex: 1;
 }
 
-/* ---- Spacer ---- */
-.spacer {
-  flex: 1;   /* Takes all remaining space, pushing bottom items down */
-  min-height: var(--space-6);
-}
-
-/* ---- Bottom Nav ---- */
-.bottomNav {
-  margin-top: var(--space-3);
-}
-
-/* ---- Logout Button ---- */
-/* Styled like a navItem but with red on hover */
-.logoutBtn {
+/* Info circle icon on the right */
+.infoIcon {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  width: 100%;
-  padding: 10px var(--space-3);
-  margin: 0 var(--space-3);
-  width: calc(100% - var(--space-6));
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  transition: background-color var(--transition-fast), color var(--transition-fast);
+  color: var(--color-text-primary);
 }
 
-.logoutBtn:hover {
-  background-color: #FEF2F2;
-  color: var(--color-error);
+/* ---- Bottom Section ---- */
+.spacer {
+  flex: 1; /* Pushes everything below it to the bottom */
 }
 
-/* ---- Upgrade Card ---- */
-.upgradeCard {
-  margin: 0 var(--space-3) var(--space-3);
-  background: linear-gradient(135deg, #7F56D9 0%, #5B21B6 100%);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  color: white;
+.divider {
+  height: 1px;
+  background-color: var(--color-border-light);
+  margin: var(--space-6) var(--space-4);
 }
 
-.upgradeIcon {
-  font-size: 20px;
-  margin-bottom: var(--space-2);
-}
-
-.upgradeTitle {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  margin-bottom: var(--space-1);
-}
-
-.upgradeDesc {
-  font-size: var(--font-size-xs);
-  opacity: 0.8;
-  line-height: 1.4;
-  margin-bottom: var(--space-3);
+/* ---- Upgrade Section ---- */
+.upgradeSection {
+  padding: var(--space-6) var(--space-8);
+  margin-bottom: var(--space-6);
 }
 
 .upgradeBtn {
   width: 100%;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: var(--radius-sm);
+  padding: 12px;
+  background-color: #8E8E8E; /* Gray as per design */
   color: white;
-  font-size: var(--font-size-xs);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
-  font-family: inherit;
-  cursor: pointer;
-  transition: background-color var(--transition-fast);
-  backdrop-filter: blur(4px);
+  transition: opacity var(--transition-fast);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .upgradeBtn:hover {
-  background: rgba(255, 255, 255, 0.35);
+  opacity: 0.9;
 }
 
-/* ============================================================
-   MOBILE STYLES — applied when screen width < 768px
-   The sidebar becomes a slide-in drawer
-   ============================================================ */
+/* ---- Mobile Responsiveness ---- */
 @media (max-width: 767px) {
   .sidebar {
-    /* Hide off-screen to the left */
     transform: translateX(-100%);
     z-index: 300;
-    box-shadow: var(--shadow-modal);
   }
-
-  /* When isOpen is true, the parent adds the .open class */
   .sidebar.open {
-    transform: translateX(0);  /* Slide into view */
+    transform: translateX(0);
   }
-
-  /* Dark overlay behind the sidebar on mobile */
   .overlay {
     position: fixed;
-    inset: 0;               /* Same as top:0 right:0 bottom:0 left:0 */
+    inset: 0;
     background: rgba(0, 0, 0, 0.4);
     z-index: 299;
     backdrop-filter: blur(2px);
   }
 }
 
-/* Desktop — overlay not needed, sidebar is always visible */
 @media (min-width: 768px) {
   .overlay {
     display: none;

@@ -9,7 +9,7 @@ function EmptyState() {
     <section className={styles.section}>
       {/* Section header matches RecentCalls header */}
       <div className={styles.header}>
-        <h2 className={styles.title}>Recent Calls</h2>
+        <h2 className={styles.title}>Recent calls</h2>
       </div>
 
       {/* Centered empty state illustration + message */}
@@ -23,7 +23,7 @@ function EmptyState() {
           Start your first call to see insights here.
         </p>
         <button className={styles.ctaBtn} id="empty-state-start-call">
-          Start Your First Call
+          Start a Call
         </button>
       </div>
     </section>
