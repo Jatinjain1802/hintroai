@@ -1,16 +1,67 @@
-# React + Vite
+# Hintro AI Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, responsive AI-powered dashboard for managing call insights, feedback, and customer interactions. Built with React, Vite, and modern CSS.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+The project is deployed on Vercel. You can access it via the deployment link provided in the Vercel dashboard.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
+- **Smart Dashboard**: Real-time stats visualization for total sessions, average duration, AI interactions, and last session tracking.
+- **Call Insights**: Detailed history of recent calls with participant tracking and duration metrics.
+- **Feedback Management**: A complete feedback system with submission modals and searchable history.
+- **User Context**: Seamless switching between test users (u1/u2) to simulate different account states (new vs. active).
+- **Responsive Design**: Fully optimized for Desktop, Tablet, and Mobile devices with a custom hamburger menu.
+- **Premium Aesthetics**: Clean dark/light mode accents, custom glassmorphism effects, and smooth transitions.
+- **Mock Integration**: Fully integrated with a mock backend API for realistic data fetching.
 
-## React Compiler
+## 🛠️ Technology Stack
+- **Frontend**: React 19, Vite
+- **Styling**: Vanilla CSS Modules (Design Tokens system)
+- **Routing**: React Router 7
+- **Icons**: Lucide React (react-icons/lu)
+- **Deployment**: Vercel
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📦 Getting Started
 
-## Expanding the ESLint configuration
+### 1. Clone the repository
+```bash
+git clone <repository-url>
+cd hintro-dashboard
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Environment Setup
+Create a `.env` file in the root directory:
+```env
+VITE_API_URL=https://mock-backend-hintro.vercel.app
+```
+
+### 4. Run the development server
+```bash
+npm run dev
+```
+
+### 5. Build for production
+```bash
+npm run build
+```
+
+## 📂 Project Structure
+- `src/api`: Centralized API layer using fetch.
+- `src/components`: Reusable UI components (Sidebar, Header, StatsCard, etc.).
+- `src/context`: Global UserContext for state management.
+- `src/hooks`: Custom React hooks for data fetching (useDashboard).
+- `src/pages`: Main page components (Dashboard, Login, Feedback).
+- `src/assets`: Images, logos, and global static assets.
+
+## 👥 Test Users
+The application supports two mock users via the `x-user-id` header:
+- **u1**: Simulates a new user (Empty state demonstration).
+- **u2**: Simulates an active user (Rich data demonstration).
+
+---
+Developed by **Hintro AI Team**.

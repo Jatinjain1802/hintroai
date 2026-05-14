@@ -10,19 +10,32 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../../api';
+import logo from '../../assets/logo.png';
 import styles from './Login.module.css';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real app, you'd validate credentials here
-    // For now, we just redirect to the dashboard
-    navigate('/dashboard');
+    setIsLoading(true);
+    setError('');
+
+    try {
+      await login(email, password);
+      // Successful login
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Invalid email or password. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -30,13 +43,15 @@ function LoginPage() {
       <div className={styles.card}>
         <div className={styles.logo}>
           <div className={styles.logoIcon}>
-            <HintroLogoIcon />
+            <img src={logo} alt="Hintro Logo" className={styles.logoImg} />
           </div>
           <span className={styles.logoText}>Hintro</span>
         </div>
 
         <h1 className={styles.title}>Login</h1>
         <p className={styles.subtitle}>Welcome back! Please enter your details.</p>
+
+        {error && <div className={styles.errorBanner}>{error}</div>}
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputGroup}>
@@ -80,8 +95,8 @@ function LoginPage() {
             <a href="#forgot">Forgot password?</a>
           </div>
 
-          <button type="submit" className={styles.loginBtn}>
-            Login
+          <button type="submit" className={styles.loginBtn} disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 

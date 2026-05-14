@@ -13,6 +13,7 @@ import {
   LuGift,
   LuInfo
 } from 'react-icons/lu';
+import logo from '../../assets/logo.png';
 import styles from './Sidebar.module.css';
 
 /* ----------------------------------------------------------
@@ -49,6 +50,7 @@ function Sidebar({ isOpen, onClose }) {
       <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
         {/* Logo Section */}
         <div className={styles.logo}>
+          <img src={logo} alt="Hintro Logo" className={styles.logoImg} />
           <span className={styles.logoText}>Hintro</span>
         </div>
 

@@ -72,6 +72,23 @@ export const getCallStats = (userId) =>
   apiFetch("/api/call-sessions/stats", userId);
 
 /**
+ * Simulate login.
+ * In this mock version, any valid email/password works.
+ * It returns the profile for 'u2' to simulate a successful login with data.
+ */
+export const login = async (email, password) => {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 800));
+  
+  if (!email || !password) {
+    throw new Error("Email and password are required");
+  }
+  
+  // Just return the profile of u2 to indicate success
+  return getProfile("u2");
+};
+
+/**
  * Fetch recent call sessions (paginated list).
  * @param {number} limit - How many sessions to return (default: 10)
  * Returns: { callSessions: [...], pagination: { page, limit, totalCount, ... } }

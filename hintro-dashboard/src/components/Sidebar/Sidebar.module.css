@@ -28,14 +28,22 @@
 .logo {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centered as per image */
+  justify-content: flex-start;
+  gap: var(--space-3);
   height: 80px;
   border-bottom: 1px solid var(--color-border-light);
   margin-bottom: var(--space-6);
+  padding: 0 var(--space-6);
+}
+
+.logoImg {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .logoText {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
   letter-spacing: -0.5px;
