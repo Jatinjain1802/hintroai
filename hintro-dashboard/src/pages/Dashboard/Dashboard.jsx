@@ -65,7 +65,11 @@ function Dashboard() {
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <main className={styles.main}>
-        <Header title="Dashboard" onLogout={handleLogoutClick} />
+        <Header 
+          title="Dashboard" 
+          onLogout={handleLogoutClick} 
+          onMenuClick={() => setSidebarOpen(true)} 
+        />
 
         <div className={styles.content}>
           {/* Welcome Section */}

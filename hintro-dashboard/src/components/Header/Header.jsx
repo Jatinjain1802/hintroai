@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LuPlay, LuChevronDown, LuLogOut, LuUser, LuCheck } from 'react-icons/lu';
+import { LuPlay, LuChevronDown, LuLogOut, LuUser, LuCheck, LuMenu } from 'react-icons/lu';
 import { useUser } from '../../context/UserContext';
 import styles from './Header.module.css';
 
@@ -11,7 +11,7 @@ import styles from './Header.module.css';
  * the state is GLOBAL (Context), the Dashboard will 
  * immediately detect the change and fetch new data!
  */
-function Header({ title, onLogout }) {
+function Header({ title, onLogout, onMenuClick }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const { userId, setUserId } = useUser();
 
@@ -27,7 +27,12 @@ function Header({ title, onLogout }) {
 
   return (
     <header className={styles.header}>
-      <h1 className={styles.title}>{title}</h1>
+      <div className={styles.leftSection}>
+        <button className={styles.menuBtn} onClick={onMenuClick}>
+          <LuMenu size={24} />
+        </button>
+        <h1 className={styles.title}>{title}</h1>
+      </div>
       
       <div className={styles.actions}>
         {/* Tutorial Button */}

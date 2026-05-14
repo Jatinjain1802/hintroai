@@ -6,7 +6,8 @@ import { useState } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import LogoutModal from '../../components/LogoutModal/LogoutModal';
 import { useUser } from '../../context/UserContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import styles from './Feedback.module.css';
 
 const MOCK_FEEDBACK = [
@@ -19,11 +20,21 @@ const MOCK_FEEDBACK = [
 function FeedbackPage() {
   const { userId, toggleUser } = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [showAcknowledgement, setShowAcknowledgement] = useState(false);
+
+  // Check if we should open the feedback modal from navigation state
+  useEffect(() => {
+    if (location.state?.openModal) {
+      setFeedbackModalOpen(true);
+      // Clear state so it doesn't reopen on every render/back navigation
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, navigate, location.pathname]);
 
   const hasFeedback = userId === 'u2';
   const displayFeedback = hasFeedback ? MOCK_FEEDBACK : [];

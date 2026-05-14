@@ -30,8 +30,8 @@ const mainNavItems = [
 ];
 
 const bottomNavItems = [
-  { id: 'feedback-history', label: 'Feedback History', icon: <LuInbox size={20} />, path: '#history' },
-  { id: 'feedback', label: 'Feedback', icon: <LuGift size={20} />, path: '/feedback' },
+  { id: 'feedback-history', label: 'Feedback History', icon: <LuInbox size={20} />, path: '/feedback' },
+  { id: 'feedback', label: 'Feedback', icon: <LuGift size={20} />, path: '/feedback', state: { openModal: true } },
 ];
 
 function Sidebar({ isOpen, onClose }) {
@@ -99,6 +99,7 @@ function NavItem({ item }) {
   return (
     <NavLink
       to={item.path}
+      state={item.state}
       className={({ isActive }) =>
         `${styles.navItem} ${isActive ? styles.navItemActive : ''}`
       }

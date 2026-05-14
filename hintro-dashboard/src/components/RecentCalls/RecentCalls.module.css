@@ -144,3 +144,35 @@
 .skeletonDate, .skeletonItem {
   animation: shimmer 1.5s infinite ease-in-out;
 }
+@media (max-width: 768px) {
+  .callItem {
+    padding: var(--space-3) var(--space-4);
+  }
+  .iconBox {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  .callName {
+    font-size: var(--font-size-sm);
+  }
+  .participantAvatar {
+    width: 20px;
+    height: 20px;
+  }
+  .right {
+    gap: var(--space-3);
+  }
+  .time {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .left {
+    gap: var(--space-3);
+  }
+  .details {
+    gap: 2px;
+  }
+}

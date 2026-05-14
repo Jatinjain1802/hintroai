@@ -9,6 +9,20 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.menuBtn {
+  display: none; /* Hidden on desktop */
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  padding: 4px;
+}
+
 .title {
   font-size: 24px;
   font-weight: var(--font-weight-semibold);
@@ -137,4 +151,26 @@
 
 .checkIcon {
   color: var(--color-primary);
+}
+@media (max-width: 768px) {
+  .header {
+    padding: 0 var(--space-4);
+    height: 70px;
+  }
+  
+  .menuBtn {
+    display: flex;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .tutorialBtn {
+    display: none; /* Hide tutorial on mobile to save space */
+  }
+
+  .actions {
+    gap: var(--space-4);
+  }
 }
