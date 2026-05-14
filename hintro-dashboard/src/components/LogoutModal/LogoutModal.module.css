@@ -94,3 +94,27 @@
 .confirmBtn:hover {
   opacity: 0.9;
 }
+
+@media (max-width: 500px) {
+  .modal {
+    margin: var(--space-4);
+    padding: var(--space-6) var(--space-5);
+    gap: var(--space-5);
+  }
+  .heading {
+    font-size: 20px;
+  }
+  .desc {
+    font-size: var(--font-size-sm);
+    padding: 0;
+  }
+  .actions {
+    flex-direction: column-reverse;
+    width: 100%;
+    gap: var(--space-3);
+  }
+  .cancelBtn, .confirmBtn {
+    width: 100%;
+    min-width: 0;
+  }
+}

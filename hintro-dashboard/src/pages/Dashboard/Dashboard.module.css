@@ -120,6 +120,9 @@
 }
 
 @media (max-width: 1024px) {
+  .content {
+    padding: var(--space-6) var(--space-8);
+  }
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-4);
@@ -130,17 +133,23 @@
   .main {
     margin-left: 0;
   }
+  .content {
+    padding: var(--space-5) var(--space-4);
+    gap: var(--space-6);
+  }
   .statsGrid {
     grid-template-columns: 1fr;
     gap: var(--space-3);
   }
   .welcomeSection {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: var(--space-4);
+    text-align: center;
   }
   .greeting {
     font-size: 22px;
+    margin-bottom: var(--space-1);
   }
   .subGreeting {
     font-size: var(--font-size-sm);
@@ -148,15 +157,20 @@
   .startCallBtn {
     width: 100%;
     justify-content: center;
+    padding: 14px;
   }
   .sectionTitle {
     font-size: 18px;
     margin-top: var(--space-2);
+    text-align: left; /* Better alignment on mobile */
   }
 }
 
 @media (max-width: 480px) {
   .greeting {
     font-size: 20px;
+  }
+  .content {
+    padding: var(--space-4);
   }
 }

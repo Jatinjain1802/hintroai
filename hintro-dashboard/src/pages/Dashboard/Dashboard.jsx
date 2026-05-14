@@ -6,6 +6,7 @@ import {
   LuCalendar
 } from 'react-icons/lu';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDashboard } from '../../hooks/useDashboard';
 import { formatAvgDuration, getLastSession } from '../../utils/formatters';
 import { useUser } from '../../context/UserContext';
@@ -22,6 +23,7 @@ import styles from './Dashboard.module.css';
 
 function Dashboard() {
   const { userId } = useUser();
+  const navigate = useNavigate();
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -38,7 +40,7 @@ function Dashboard() {
 
   function handleLogoutConfirm() {
     setLogoutOpen(false);
-    alert('You have been logged out!');
+    navigate('/login');
   }
 
   const totalSessions = stats?.totalSessions ?? 0;
